@@ -1,19 +1,21 @@
-pkh01_1ul = powercomp('C:\Users\Senan\Desktop\pump prelim\pKH01-20180803-193539.bin', 134, 1);
-pkh02_1ul = powercomp('C:\Users\Senan\Desktop\pump prelim\pKH02-20180803-160721.bin', 52, 1);
-
-pkh01_1ul_hcp = powercomp('C:\Users\Senan\Desktop\pump prelim\pKH01-20180803-193539.bin', 134, 2);
-pkh02_1ul_hcp = powercomp('C:\Users\Senan\Desktop\pump prelim\pKH02-20180803-160721.bin', 52, 2);
-
-
-pkh01_2ul = powercomp('C:\Users\Senan\Desktop\pump prelim\pKH01-20180918-092911.bin', 83, 1);
-pkh02_2ul = powercomp('C:\Users\Senan\Desktop\pump prelim\pKH02-20180918-092913.bin', 78, 1);
-
-pkh01_2ul_hcp = powercomp('C:\Users\Senan\Desktop\pump prelim\pKH01-20180918-092911.bin', 83, 2);
-pkh02_2ul_hcp = powercomp('C:\Users\Senan\Desktop\pump prelim\pKH02-20180918-092913.bin', 78, 2);
+cuttimes.names = {'pkh01_1ul', 'pkh02_1ul', 'pkh01_2ul', 'pkh02_2ul', 'pkh01_4ul', 'pkh02_4ul'};
+cuttimes.filenames = {'C:\Users\Senan\Desktop\pump prelim\pKH01-20180803-193539.bin',
+                      'C:\Users\Senan\Desktop\pump prelim\pKH02-20180803-160721.bin',
+                      'C:\Users\Senan\Desktop\pump prelim\pKH01-20180918-092911.bin',
+                      'C:\Users\Senan\Desktop\pump prelim\pKH02-20180918-092913.bin',
+                      'C:\Users\Senan\Desktop\pump prelim\pKH01-20181003-130634.bin',
+                      'C:\Users\Senan\Desktop\pump prelim\pKH02-20181003-130638.bin'
+                      }
+                      
+cuttimes.times = [134, 52, 83, 78, 123,108];
 
 
-pkh01_4ul = powercomp('C:\Users\Senan\Desktop\pump prelim\pKH01-20181003-130634.bin', 123, 1);
-pkh02_4ul = powercomp('C:\Users\Senan\Desktop\pump prelim\pKH02-20181003-130638.bin', 108, 1);
-
-pkh01_4ul_hcp = powercomp('C:\Users\Senan\Desktop\pump prelim\pKH01-20181003-130634.bin', 123, 2);
-pkh02_4ul_hcp = powercomp('C:\Users\Senan\Desktop\pump prelim\pKH02-20181003-130638.bin', 108, 2);
+for i = 1:length(cuttimes.times)
+    for j = 1:2 %channels of interest
+        data = powercomp(cuttimes.filenames{i}, cuttimes.times(i), [-10,-5, 5,10], j);
+        %save(strcat(cuttimes.names(i), '_ch', j, '.mat'), 'data');
+        %saveas(gcf, strcat(cuttimes.names(i), '_ch', j, '_powers.fig'));
+        %saveas(gcf, strcat(cuttimes.names(i), '_ch', j, '_powers.png'));
+        
+    end
+end

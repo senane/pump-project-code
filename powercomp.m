@@ -1,13 +1,28 @@
-function da = powercomp(filename, cut, chan)
+function da = powercomp(filename, cut, periods, chan)
+
+% computes and plots difference in normalized powers 
+
+% modified to take a 5 minute window on each side of cut time for
+% comparison, with a 5 minute buffer (i.e. [-10,-5] vs [5,10] min) where 0
+% is cut time
+
+% cut represents minute of injection on EEG recording
+% window is [start1, stop1, start2, stop2] in minutes
 
     da = bin2mat(filename);
-    injmin = cut; % minute of injection
+    
+    injmin = cut;
+    
+    if cut + min(periods) < 0
+        error('Cut time is too low for window provided')
+    end
+    
     
     [filepath, name, ext] = fileparts(filename);
     animal = name(1:5);
     
     rate = 1000;
-    window = 60;
+    window = 10; % size of a window for features, in seconds
 
     params.chans = [chan];
     params.features = [4];
@@ -29,15 +44,24 @@ function da = powercomp(filename, cut, chan)
     end
 
     params.outputNames = 1 ;
-    [~, featnames] = getEEGfeatures(data, rate, params)
+    [~, featnames] = getEEGfeatures(data, rate, params);
 
 
-    [h, p] = ttest2(allfeats(1:injmin,:),allfeats(injmin+1:end,:))
+    
+    start1 = (injmin + periods(1))*60/window;
+    stop1 = (injmin + periods(2))*60/window;
+    start2 = (injmin + periods(3))*60/window;
+    stop2 = (injmin + periods(4))*60/window;
+    
+    predata = allfeats(start1:stop1,:);
+    postdata = allfeats(start2:stop2,:);
+    
+    [h, p] = ttest2(predata,postdata);
 
     figure
-    errorbar(mean(allfeats(1:injmin,:)), std(allfeats(1:injmin,:)/sqrt(length(allfeats(1:injmin,:)))),'bx')
+    errorbar(mean(predata), std(predata/sqrt(length(predata))),'bx')
     hold on
-    errorbar(mean(allfeats(injmin+1:end,:)), std(allfeats(injmin+1:end,:)/sqrt(length(allfeats(injmin+1:end,:)))),'rx')
+    errorbar(mean(postdata), std(postdata/sqrt(length(postdata))),'rx')
     legend('pre-injection', 'post-injection')
     ylabel('normalized power')
     xlabel('bands')
