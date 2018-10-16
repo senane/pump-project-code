@@ -7,8 +7,12 @@ cuttimes.filenames = {'C:\Users\Senan\Desktop\pump prelim\pKH01-20180803-193539.
                       'C:\Users\Senan\Desktop\pump prelim\pKH02-20181003-130638.bin'
                       }
                       
-cuttimes.times = [134, 52, 83, 78, 123,108];
+cuttimes.times = [134, 120, 83, 78, 123,108];
 
+
+% pKH01-20180803-160717
+
+% pKH02-20180803-160721
 
 for i = 1:length(cuttimes.times)
     for j = 1:2 %channels of interest
@@ -16,6 +20,8 @@ for i = 1:length(cuttimes.times)
         %save(strcat(cuttimes.names(i), '_ch', j, '.mat'), 'data');
         %saveas(gcf, strcat(cuttimes.names(i), '_ch', j, '_powers.fig'));
         %saveas(gcf, strcat(cuttimes.names(i), '_ch', j, '_powers.png'));
+        
+        data.stream
         
     end
 end
