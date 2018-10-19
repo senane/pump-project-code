@@ -58,8 +58,36 @@ function da = powercomp(filename, cut, periods, chan)
     
     [h, p] = ttest2(predata,postdata);
 
-    da.predata = predata;
-    da.postdata = postdata;
+    figure
+    plot([0,1,2], [0,1,2])
+%     subplot(2,2,1)
+%     errorbar(mean(predata), std(predata/sqrt(length(predata))),'bx')
+%     hold on
+%     errorbar(mean(postdata), std(postdata/sqrt(length(postdata))),'rx')
+%     legend('pre-injection', 'post-injection')
+%     ylabel('normalized power')
+%     xlabel('bands')
+%     xticklabels({'0.5-4 Hz', '4-8 Hz', '8-12 Hz', '12-16 Hz', '16-25 Hz', '25-50 Hz', '50-100 Hz'})
+%     title (strcat(animal,' normalized power in ch', num2str(chan),' with diazepam injection'))
+% 
+%     hold off 
+%     
+%     figure
+%     subplot(2,2,1)
+%     spectrogram(da.stream(chan+1,:),1000,100,[1:0.5:100],1000,'yaxis')
+%     hold on
+%     x = cut/60;
+%     line([x,x],[0,500],'color','red');
+% 
+%     xs = cut/60 + epochs/60; 
+%     for j = 1:length(xs)
+%         line([xs(j), xs(j)],[0,500],'color','blue');
+%     end
+        
+        
+%         title(strcat('spectrogram for ch',num2str(j),' of',cuttimes.names{i}));
+    
+
     da.normpowers = allfeats;
     da.h = h; 
     da.p = p;
